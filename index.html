@@ -3,185 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Urban Heat Island Analysis Tool</title>
+<title>Urban Heat Island Tool</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-:root{
-    --bg1:#0f2027;
-    --bg2:#4c1d95;
-    --accent1:#ff7e5f;
-    --accent2:#00c9ff;
-    --card:rgba(255,255,255,0.07);
-    --text:#f1f5f9;
-}
+html{scroll-behavior:smooth;}
 
 body{
-    margin:0;
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,var(--bg1),var(--bg2));
-    color:var(--text);
+margin:0;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b,#5b21b6);
+color:#e2e8f0;
 }
 
-/* FOUNDERS */
-.top-bar{
-    text-align:center;
-    padding:8px;
-    background:rgba(0,0,0,0.5);
+/* HEADER */
+.top-header{
+background:linear-gradient(90deg,#000814,#1e293b,#4c1d95);
+text-align:center;
+padding:10px;
+font-weight:bold;
 }
 
-/* NAV */
-nav{
-    display:flex;
-    justify-content:center;
-    gap:35px;
-    padding:14px;
-    background:rgba(0,0,0,0.6);
+.navbar{
+text-align:center;
+padding:10px;
+background:rgba(0,0,0,0.5);
 }
 
-/* SECTION */
-section{
-    padding:25px 20px;
+.navbar a{
+color:#94a3b8;
+margin:0 15px;
+text-decoration:none;
+transition:0.3s;
 }
 
-/* FIXED GAP FLOW */
-#about{ margin-top:-10px; }
-#contact{ margin-top:-15px; }
+.navbar a:hover{
+color:#22c55e;
+}
 
+/* MAIN */
 .container{
-    width:90%;
-    margin:auto;
+width:85%;
+margin:auto;
+padding:30px 0;
+}
+
+h1,h2{
+font-family:'Orbitron',sans-serif;
 }
 
 /* CARD */
 .card{
-    background:var(--card);
-    border-radius:12px;
-    padding:18px;
-    margin-bottom:6px;
+background:rgba(255,255,255,0.07);
+border-radius:15px;
+padding:25px;
+margin-bottom:30px;
 }
 
-/* SPECIAL: MERGE UHI + SOLUTIONS */
-.tight-group .card{
-    margin-bottom:3px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:15px;
-}
-
-.chart-box{ height:200px; }
-
-canvas{
-    width:100% !important;
-    height:100% !important;
-}
-
+/* INPUT */
 input{
-    padding:9px;
-    margin:6px;
-    border:none;
-    border-radius:6px;
-    width:90%;
+width:300px;
+padding:12px;
+border-radius:8px;
+border:none;
+margin-bottom:15px;
+display:block;
 }
 
+.input-row{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.input-row input{
+margin-bottom:0;
+}
+
+/* BUTTON */
 button{
-    background:linear-gradient(45deg,var(--accent1),var(--accent2));
-    border:none;
-    padding:10px;
-    border-radius:6px;
-    cursor:pointer;
+height:45px;
+padding:0 20px;
+background:linear-gradient(45deg,#22c55e,#06b6d4);
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
 }
 
-/* HEADINGS */
-h1,h2{
-    font-family:'Orbitron',sans-serif;
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
 }
 
-footer{
-    text-align:center;
-    padding:10px;
-    background:rgba(0,0,0,0.5);
+.chart-box{
+height:200px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-<b>Founders:</b> Ajay | Manshi Tiwari |  Kandula Ajith Kumar Reddy
+<div class="top-header">
+Founders: Ajay | Manshi Tiwari | Kandula Ajith Kumar Reddy
 </div>
 
-<nav>
+<div class="navbar">
 <a href="#home">Home</a>
 <a href="#tool">Tool</a>
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
-</nav>
+</div>
 
-<section id="home">
 <div class="container">
+
+<!-- HOME -->
+<div id="home">
 <h1>Urban Heat Island Analysis Tool</h1>
 <p>Environmental Dashboard</p>
 </div>
-</section>
 
-<section id="tool">
-<div class="container">
-
-<div class="card">
+<!-- TOOL -->
+<div id="tool" class="card">
 <h2>Analysis Tool</h2>
-<p><b>Formula:</b> UHI = Urban − Rural</p>
 
 <input type="number" id="urban" placeholder="Urban Temp °C">
 <input type="number" id="rural" placeholder="Rural Temp °C">
+
+<div class="input-row">
 <input type="number" id="humidity" placeholder="Humidity %">
-
 <button onclick="analyze()">Calculate</button>
+</div>
 
+<div id="resultBox" style="display:none;">
 <h3 id="result"></h3>
 <h4 id="breakdown"></h4>
 <h4 id="comfort"></h4>
 </div>
+</div>
 
-<div class="card grid">
+<!-- CHARTS -->
+<div id="chartBox" class="card grid" style="display:none;">
 <div class="chart-box"><canvas id="barChart"></canvas></div>
 <div class="chart-box"><canvas id="lineChart"></canvas></div>
 <div class="chart-box"><canvas id="pieChart"></canvas></div>
 </div>
 
-<div class="card">
+<!-- INSIGHTS -->
+<div id="insightBox" class="card" style="display:none;">
 <h2>Insights</h2>
 <p id="insightText"></p>
 </div>
 
-</div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-<div class="container tight-group">
-
-<div class="card">
-<h2>Urban Heat Island</h2>
+<!-- 🔥 ABOUT BOX -->
+<div id="about" class="card">
+<h2>About</h2>
 <p>
-Urban areas become hotter due to buildings, roads, and reduced vegetation.
+This tool analyzes Urban Heat Island using temperature differences 
+and visualizes environmental impact.
 </p>
 </div>
 
-<div class="card">
-<h2>Solutions</h2>
-<ul>
-<li>Increase green cover</li>
-<li>Use reflective materials</li>
-<li>Reduce emissions</li>
-</ul>
-</div>
-
+<!-- 🔥 THEORY BOX (SEPARATE) -->
 <div class="card">
 <h2>UHI Calculation Theory</h2>
 
@@ -189,14 +176,14 @@ Urban areas become hotter due to buildings, roads, and reduced vegetation.
 
 <p><b>UHI = T<sub>urban</sub> − T<sub>rural</sub></b></p>
 
-<h4>Methods:</h4>
+<h3>Methods:</h3>
 <ul>
 <li>Simple temperature difference method</li>
 <li>Satellite-based Land Surface Temperature (LST)</li>
 <li>Hotspot detection using mean + deviation</li>
 </ul>
 
-<h4>Steps:</h4>
+<h3>Steps:</h3>
 <ol>
 <li>Collect temperature data</li>
 <li>Identify urban and rural regions</li>
@@ -207,32 +194,32 @@ Urban areas become hotter due to buildings, roads, and reduced vegetation.
 <p>This project uses a simplified model for demonstration.</p>
 </div>
 
-</div>
-</section>
-
-<section id="contact">
-<div class="container">
-<div class="card">
+<!-- CONTACT -->
+<div id="contact" class="card">
 <h2>Contact</h2>
 <p>Name: Ajay</p>
 <p>Email: ajaylohan1605@gmail.com</p>
 </div>
-</div>
-</section>
 
-<footer>
-<p>© 2026 UHI Tool</p>
-</footer>
+</div>
 
 <script>
 let barChart,lineChart,pieChart;
 
 function analyze(){
+
 let u=parseFloat(document.getElementById("urban").value);
 let r=parseFloat(document.getElementById("rural").value);
 let h=parseFloat(document.getElementById("humidity").value);
 
-if(isNaN(u)||isNaN(r)) return;
+if(isNaN(u)||isNaN(r)){
+alert("Enter valid values");
+return;
+}
+
+document.getElementById("resultBox").style.display="block";
+document.getElementById("chartBox").style.display="grid";
+document.getElementById("insightBox").style.display="block";
 
 let uhi=u-r;
 let heat=u+(h*0.1);
@@ -241,29 +228,33 @@ document.getElementById("result").innerText="UHI = "+uhi.toFixed(2);
 document.getElementById("breakdown").innerText=u+" - "+r+" = "+uhi.toFixed(2);
 document.getElementById("comfort").innerText="Heat Index = "+heat.toFixed(2);
 
-document.getElementById("insightText").innerText=
-"Higher UHI indicates urban heating. Increase greenery.";
+let insight="";
+if(uhi<0){insight="Urban cooler than rural";}
+else if(uhi===0){insight="No UHI effect";}
+else if(uhi<=2){insight="Low UHI effect";}
+else if(uhi<=5){insight="Moderate UHI effect";}
+else{insight="Severe UHI effect";}
 
+document.getElementById("insightText").innerText=insight;
+
+/* CHARTS */
 if(barChart) barChart.destroy();
 if(lineChart) lineChart.destroy();
 if(pieChart) pieChart.destroy();
 
 barChart=new Chart(document.getElementById("barChart"),{
 type:'bar',
-data:{labels:['Urban','Rural'],datasets:[{data:[u,r],backgroundColor:['#ff7e5f','#00c9ff']}]},
-options:{responsive:true,maintainAspectRatio:false}
+data:{labels:['Urban','Rural'],datasets:[{data:[u,r],backgroundColor:['#fb7185','#22d3ee']}]}
 });
 
 lineChart=new Chart(document.getElementById("lineChart"),{
 type:'line',
-data:{labels:['Rural','Urban'],datasets:[{data:[r,u],borderColor:'#ff7e5f'}]},
-options:{responsive:true,maintainAspectRatio:false}
+data:{labels:['Rural','Urban'],datasets:[{data:[r,u],borderColor:'#38bdf8'}]}
 });
 
 pieChart=new Chart(document.getElementById("pieChart"),{
 type:'pie',
-data:{labels:['UHI','Rural'],datasets:[{data:[uhi,r],backgroundColor:['#00c9ff','#ff7e5f']}]},
-options:{responsive:true,maintainAspectRatio:false}
+data:{labels:['UHI','Rural'],datasets:[{data:[uhi,r],backgroundColor:['#22d3ee','#fb7185']}]}
 });
 }
 </script>
